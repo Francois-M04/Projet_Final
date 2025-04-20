@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ livre.titre }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .btn-hover-move:hover {
+      transform: translateY(-3px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title text-primary">{{ livre.titre }}</h2>
+        <p class="card-text"><strong>Auteur :</strong> {{ livre.auteur }}</p>
+        <p class="card-text"><strong>ISBN :</strong> {{ livre.isbn }}</p>
+        <p class="card-text"><strong>Date de publication :</strong> {{ livre.date_publication }}</p>
+        <p class="card-text"><strong>Ajouté par :</strong> {{ livre.ajout_par.username }}</p>
+        <p class="card-text"><strong>Date d'ajout :</strong> {{ livre.date_ajout }}</p>
+
+        {% csrf_token %}
+
+        <div class="mt-4 d-flex gap-2">
+          {% if request.user == livre.ajout_par %}
+            <a href="{% url 'livre_update' livre.pk %}" class="btn btn-warning btn-hover-move">✏️ Modifier</a>
+            <a href="{% url 'supprimer_livre' livre.pk %}" class="btn btn-danger btn-hover-move">🗑️ Supprimer</a>
+          {% endif %}
+          <a href="{% url 'liste_livres' %}" class="btn btn-secondary btn-hover-move">⬅️ Retour à la liste</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
